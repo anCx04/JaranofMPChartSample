@@ -1,5 +1,6 @@
 package it.crescenziandrea.jaranofmpchartsample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     class Holder implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
-        final Button bt_search;
+        final Button btGenerate;
         final Volley model ;
         final Spinner spChartType;
         final Spinner spChartArgument;
@@ -87,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
             swEnabledLegend = findViewById(R.id.swEnableLegend);
             spChartType = findViewById(R.id.spChartSelection);
             spChartArgument = findViewById(R.id.spChartArgument);
-            bt_search = findViewById(R.id.btGenerate);
-            bt_search.setOnClickListener(this);
+            btGenerate = findViewById(R.id.btGenerate);
+            btGenerate.setOnClickListener(this);
 
             spinnerAdapter(spChartType, R.array.ChartType);
             spinnerAdapter(spChartArgument, R.array.ChartArgument);
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spChart.setAdapter(adapter);
         }
-//ojhbfgbrjcngrhkc hrj
+
         private  void filltext(String str){
         }
 
@@ -120,7 +121,12 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             model.search();
             Log.w("CA", "onclick");
+            if(v == btGenerate) {
+                Intent intent = new Intent(getApplicationContext(), buildChart.class);
+                startActivity(intent);
+            }
         }
+
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
