@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">JaranofMPChartSample</string>
+
+    <string-array name="ChartType">
+        <item>a Barre</item>
+        <item>a Linee</item>
+        <item>a Torta</item>
+    </string-array>
+
+    <string-array name="ChartArgument">
+        <item>Tamponi effettuati</item>
+        <item>Malati</item>
+        <item>Guariti</item>
+    </string-array>
 </resources>
