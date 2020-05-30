@@ -3,8 +3,12 @@ package it.crescenziandrea.jaranofmpchartsample;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.CompoundButton;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,10 +18,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import java.util.List;
-
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,18 +72,32 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    class Holder implements View.OnClickListener{
+    class Holder implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
-        final TextView tx_search;
         final Button bt_search;
         final Volley model ;
+        final Spinner spChartType;
+        final Spinner spChartArgument;
+        final Switch swEnabledLegend;
+        final Switch swEnabledLabel;
 
         Holder(){
 
-
-            tx_search = findViewById(R.id.tx_serach);
-            bt_search = findViewById(R.id.bt_search);
+            swEnabledLabel = findViewById(R.id.swLabelEnable);
+            swEnabledLegend = findViewById(R.id.swEnableLegend);
+            spChartType = findViewById(R.id.spChartSelection);
+            spChartArgument = findViewById(R.id.spChartArgument);
+            bt_search = findViewById(R.id.btGenerate);
             bt_search.setOnClickListener(this);
+
+            spinnerAdapter(spChartType, R.array.ChartType);
+            spinnerAdapter(spChartArgument, R.array.ChartArgument);
+
+            swEnabledLegend.setOnCheckedChangeListener(this);
+            swEnabledLabel.setOnCheckedChangeListener(this);
+
+            spChartArgument.setOnItemSelectedListener(this);
+            spChartType.setOnItemSelectedListener(this);
 
             this.model = new Volley() {
                 @Override
@@ -91,17 +105,48 @@ public class MainActivity extends AppCompatActivity {
                     filltext(string);
                 }
             };
+        }
 
+        private void spinnerAdapter(Spinner spChart, int ItemType) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), ItemType, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spChart.setAdapter(adapter);
         }
 
         private  void filltext(String str){
-            tx_search.setText(str);
         }
 
         @Override
         public void onClick(View v) {
             model.search();
             Log.w("CA", "onclick");
+        }
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            String selection = parent.getItemAtPosition(position).toString();
+            Toast.makeText(parent.getContext(), selection, Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(swEnabledLabel.isChecked()) {
+                Toast.makeText(getApplicationContext(), "label on", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "label off", Toast.LENGTH_LONG).show();
+            }
+            if(swEnabledLegend.isChecked()) {
+                Toast.makeText(getApplicationContext(), "legend on", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "legend off", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
