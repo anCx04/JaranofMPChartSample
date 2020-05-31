@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
         final Switch swEnabledLegend;
         final Switch swEnabledLabel;
 
+        final Bundle bundle = new Bundle();
+        putData putdata = new putData();
+        Intent intent;
+
         Holder(){
 
             swEnabledLabel = findViewById(R.id.swLabelEnable);
@@ -122,8 +126,7 @@ public class MainActivity extends AppCompatActivity {
             model.search();
             Log.w("CA", "onclick");
             if(v == btGenerate) {
-                Intent intent = new Intent(getApplicationContext(), buildChart.class);
-                startActivity(intent);
+                putdata.getAll();
             }
         }
 
@@ -131,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String selection = parent.getItemAtPosition(position).toString();
+            putdata.setSelection(selection);
             Toast.makeText(parent.getContext(), selection, Toast.LENGTH_LONG).show();
         }
 
@@ -141,18 +145,30 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(swEnabledLabel.isChecked()) {
+            if(!swEnabledLabel.isChecked()) {
                 Toast.makeText(getApplicationContext(), "label on", Toast.LENGTH_LONG).show();
+                putdata.setSwLabel(isChecked);
             }
             else {
                 Toast.makeText(getApplicationContext(), "label off", Toast.LENGTH_LONG).show();
+                putdata.setSwLabel(isChecked);
             }
-            if(swEnabledLegend.isChecked()) {
+            if(!swEnabledLegend.isChecked()) {
                 Toast.makeText(getApplicationContext(), "legend on", Toast.LENGTH_LONG).show();
+                putdata.setSwLegend(isChecked);
             }
             else {
                 Toast.makeText(getApplicationContext(), "legend off", Toast.LENGTH_LONG).show();
+                putdata.setSwLegend(isChecked);
             }
         }
+    }
+    public class putData{
+        Intent intent = new Intent(getApplicationContext(), buildChart.class);
+        public void setSelection(String selection){ intent.putExtra("selection", selection);}
+        public void setSwLabel(Boolean isChecked){ intent.putExtra("swLabel", isChecked);}
+        public void setSwLegend(Boolean isChecked){ intent.putExtra("swLegend", isChecked);}
+
+        public void getAll(){ startActivity(intent);}
     }
 }
