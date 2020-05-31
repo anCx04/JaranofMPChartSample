@@ -40,6 +40,7 @@ public class buildChart extends AppCompatActivity {
         NoOfEmp.add(new Entry(1, 1040f));
         NoOfEmp.add(new Entry(2, 1133f));
         NoOfEmp.add(new Entry(3, 1240f));
+        //gfchrghvhgcgjvgc
 
         LineDataSet dataSet = new LineDataSet(NoOfEmp, "Label");
         LineData lineData = new LineData(dataSet);
