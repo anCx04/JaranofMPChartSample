@@ -37,7 +37,7 @@ public class buildChart extends AppCompatActivity {
         switch (selection) {
             case "a Barre":
                 break;
-            case "a Linee:":
+            case "a Linee":
                 LineChart lineChart;
 
                 lineChart = findViewById(R.id.lineChart);
