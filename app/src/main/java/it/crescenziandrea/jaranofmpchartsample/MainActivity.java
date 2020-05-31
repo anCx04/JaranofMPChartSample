@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -19,8 +20,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
 
     @Override
@@ -34,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     abstract class  Volley implements Response.ErrorListener, Response.Listener<String>{
-        abstract void fill(String string);
+        abstract void fill(List<dati> cnt);
 
        public void search() {
-            String url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale-latest.json";
-           //String url ="https://www.google.it";
+           // String url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale-latest.json";
+           String url ="https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json";
 
             apiCall(url);
            Log.w("CA", "search");
@@ -66,17 +75,32 @@ public class MainActivity extends AppCompatActivity {
         public void onResponse(String response) {
             //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_SHORT).show();
             //Log.w("CA", "onrespons");
-            fill(response);
+
+            Gson gson = new Gson();
+            try {
+
+                Type listType = new TypeToken<List<dati>>() {
+                }.getType();
+                List<dati> cnt = gson.fromJson(response, listType);
+                if (cnt != null && cnt.size() > 0) {
+                    Log.w("CA", "" + cnt.size());
+                    fill(cnt);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //fill(response);
 
         }
     }
-
 
 
     class Holder implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
         final Button btGenerate;
         final Volley model ;
+        private List<dati> data;
         final Spinner spChartType;
         final Spinner spChartArgument;
         final Switch swEnabledLegend;
@@ -106,8 +130,10 @@ public class MainActivity extends AppCompatActivity {
 
             this.model = new Volley() {
                 @Override
-                void fill(String string) {
-                    filltext(string);
+                void fill(List<dati> cnt) {
+                    filltext(cnt);
+                    data = cnt;
+                    Log.w("CA", String.valueOf(data));
                 }
             };
         }
@@ -118,13 +144,46 @@ public class MainActivity extends AppCompatActivity {
             spChart.setAdapter(adapter);
         }
 
-        private  void filltext(String str){
+        private  void filltext(List<dati> cnt) {
+
         }
+
+
+
+        int i= 0;
 
         @Override
         public void onClick(View v) {
+
+            i = i+1;
+
             model.search();
             Log.w("CA", "onclick");
+            /*
+            if(i == 2) {
+            i=0;
+
+
+            ArrayList<String> prova1 = new ArrayList<>();
+            prova1.add(data.get(0).getData());
+            prova1.add(data.get(1).getData());
+            prova1.add(data.get(2).getData());
+
+            ArrayList<Integer> prova2 = new ArrayList<Integer>();
+            prova2.add(data.get(0).getTotale_ospedalizzati());
+            prova2.add(data.get(1).getTotale_ospedalizzati());
+            prova2.add(data.get(2).getTotale_ospedalizzati());
+
+             Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList("prova1",prova1);
+            bundle.putIntegerArrayList("prova2",prova2);
+            intent.putExtras(bundle);
+
+
+                startActivity(intent);
+            }
+*/
             if(v == btGenerate) {
                 putdata.getAll();
             }
@@ -147,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
             if(!swEnabledLabel.isChecked()) {
                 Toast.makeText(getApplicationContext(), "label on", Toast.LENGTH_LONG).show();
                 putdata.setSwLabel(isChecked);
@@ -164,7 +224,12 @@ public class MainActivity extends AppCompatActivity {
                 putdata.setSwLegend(isChecked);
             }
         }
+
     }
+
+
+
+
     public class putData{
         Intent intent = new Intent(getApplicationContext(), buildChart.class);
         public void setSelection(String selection){ intent.putExtra("selection", selection);}
