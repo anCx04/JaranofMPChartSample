@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
              */
         }
 
-
+//vhfg
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String selection = parent.getItemAtPosition(position).toString();
