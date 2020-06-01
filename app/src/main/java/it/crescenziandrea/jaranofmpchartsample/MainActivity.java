@@ -29,8 +29,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    boolean recive = true;
 
 
+    Holder holder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //ciao3
 
-        new Holder();
+        holder = new Holder();
 
     }
 
@@ -76,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_SHORT).show();
             //Log.w("CA", "onrespons");
 
+
+
             Gson gson = new Gson();
             try {
 
@@ -89,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            //Toast.makeText(getApplicationContext(), "ricevuto", Toast.LENGTH_LONG).show();
 
+            holder.getAll();
             //fill(response);
 
         }
@@ -99,18 +105,18 @@ public class MainActivity extends AppCompatActivity {
     class Holder implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
         final Button btGenerate;
-        final Volley model ;
+        final Volley model;
         private List<dati> data;
         final Spinner spChartType;
         final Spinner spChartArgument;
         final Switch swEnabledLegend;
         final Switch swEnabledLabel;
-
+        private int selectionData = 99;
         final Bundle bundle = new Bundle();
-        putData putdata = new putData();
-        Intent intent;
 
-        Holder(){
+        Intent intent = new Intent(getApplicationContext(),buildChart.class);
+
+        Holder() {
 
             swEnabledLabel = findViewById(R.id.swLabelEnable);
             swEnabledLegend = findViewById(R.id.swEnableLegend);
@@ -132,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 void fill(List<dati> cnt) {
                     filltext(cnt);
-                    data = cnt;
+                    //data = cnt;
                     Log.w("CA", String.valueOf(data));
                 }
             };
@@ -144,18 +150,32 @@ public class MainActivity extends AppCompatActivity {
             spChart.setAdapter(adapter);
         }
 
-        private  void filltext(List<dati> cnt) {
+        private void filltext(List<dati> cnt) {
+
+            switch(selectionData) {
+                case 0:
+                    for (int i = 0; i < cnt.size(); i++) {
+                        setSelection(cnt.get(4).getData());
+                    }
+                    break;
+                case 1:
+                    for (int i = 0; i < cnt.size(); i++) {
+                        setSelection(cnt.get(cnt.size() - 1).getData());
+                    }
+                    break;
+                default:
+                    break;
+            }
 
         }
 
 
-
-        int i= 0;
+        int i = 0;
 
         @Override
         public void onClick(View v) {
 
-            i = i+1;
+            i = i + 1;
 
             model.search();
             Log.w("CA", "onclick");
@@ -184,15 +204,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
 */
+            /*
             if(v == btGenerate) {
                 putdata.getAll();
             }
+             */
         }
 
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String selection = parent.getItemAtPosition(position).toString();
+
+            if(selection.equals("Tamponi effettuati")) {
+                selectionData = 0;
+
+            }
+            else if(selection.equals("Guariti")){
+                selectionData = 1;
+            }
+            else{
+                selectionData = 99;
+                setSelection(selection);
+            }
             if (selection.equals("a Barre") || selection.equals("a Linee") || selection.equals("a Torta")) {
                 putdata.setSelection(selection);
             }
@@ -207,35 +241,39 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-            if(!swEnabledLabel.isChecked()) {
+            if (!swEnabledLabel.isChecked()) {
                 Toast.makeText(getApplicationContext(), "label on", Toast.LENGTH_LONG).show();
-                putdata.setSwLabel(isChecked);
-            }
-            else {
+                setSwLabel(isChecked);
+            } else {
                 Toast.makeText(getApplicationContext(), "label off", Toast.LENGTH_LONG).show();
-                putdata.setSwLabel(isChecked);
+                setSwLabel(isChecked);
             }
-            if(!swEnabledLegend.isChecked()) {
+            if (!swEnabledLegend.isChecked()) {
                 Toast.makeText(getApplicationContext(), "legend on", Toast.LENGTH_LONG).show();
-                putdata.setSwLegend(isChecked);
-            }
-            else {
+                setSwLegend(isChecked);
+            } else {
                 Toast.makeText(getApplicationContext(), "legend off", Toast.LENGTH_LONG).show();
-                putdata.setSwLegend(isChecked);
+                setSwLegend(isChecked);
             }
+        }
+
+        public void setSelection(String selection) {
+            intent.putExtra("selection", selection);
+        }
+
+        public void setSwLabel(Boolean isChecked) {
+            intent.putExtra("swLabel", isChecked);
+        }
+
+        public void setSwLegend(Boolean isChecked) {
+            intent.putExtra("swLegend", isChecked);
+        }
+
+        public void getAll() {
+            startActivity(intent);
         }
 
     }
 
 
-
-
-    public class putData{
-        Intent intent = new Intent(getApplicationContext(), buildChart.class);
-        public void setSelection(String selection){ intent.putExtra("selection", selection);}
-        public void setSwLabel(Boolean isChecked){ intent.putExtra("swLabel", isChecked);}
-        public void setSwLegend(Boolean isChecked){ intent.putExtra("swLegend", isChecked);}
-
-        public void getAll(){ startActivity(intent);}
-    }
 }
