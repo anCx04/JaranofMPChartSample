@@ -64,15 +64,20 @@ public class buildChart extends AppCompatActivity {
                 barData.setBarWidth(0.9f);
                 chart.setFitBars(true);
                 chart.setData(barData);
-                chart.invalidate(); // refresh
-//.0
+                chart.invalidate();
                 break;
             case "a Linee":
-                Toast.makeText(this, "LINEEEE", Toast.LENGTH_LONG).show();
-                ArrayList<Entry> NoOfEmp = new ArrayList<Entry>();
+                List<Entry> NoOfEmp = new ArrayList<Entry>();
+                NoOfEmp.add(new Entry(0,num.get(0)));
+                for (int i = 1; i < num.size(); i++) {
+                    NoOfEmp.add(new Entry(i, num.get(i)-num.get(i-1)));
+                }
 
                 setContentView(R.layout.activity_line_chart);
                 LineChart lineChart = findViewById(R.id.chart);
+                lineChart.setTouchEnabled(true);
+                lineChart.setDragEnabled(true);
+                lineChart.setPinchZoom(true);
                 LineDataSet dataSet = new LineDataSet(NoOfEmp, "Label");
                 LineData lineData = new LineData(dataSet);
                 lineChart.setData(lineData);
@@ -80,26 +85,20 @@ public class buildChart extends AppCompatActivity {
 
                 break;
             case "a Torta":
-                setContentView(R.layout.activity_pie_chart);
-
+                List<PieEntry> NOfEmp = new ArrayList<PieEntry>();
+                NOfEmp.add(new PieEntry(0,num.get(0)));
+                for (int i = 1; i < num.size(); i++) {
+                    NOfEmp.add(new PieEntry(i, num.get(i)-num.get(i-1)));
+                }
                 Toast.makeText(this, "pieeee", Toast.LENGTH_LONG).show();
 
+                setContentView(R.layout.activity_pie_chart);
                 PieChart pieChart = findViewById(R.id.chart);
-                List<PieEntry> NOfEmp = new ArrayList<>();
 
-                NOfEmp.add(new PieEntry(945f, 0));
-                NOfEmp.add(new PieEntry(1040f, 1));
-                NOfEmp.add(new PieEntry(1133f, 2));
-                NOfEmp.add(new PieEntry(1240f, 3));
-                NOfEmp.add(new PieEntry(1369f, 4));
-                NOfEmp.add(new PieEntry(1487f, 5));
-                NOfEmp.add(new PieEntry(1501f, 6));
-                NOfEmp.add(new PieEntry(1645f, 7));
-                NOfEmp.add(new PieEntry(1578f, 8));
-                NOfEmp.add(new PieEntry(1695f, 9));
+
                 PieDataSet dataSett = new PieDataSet(NOfEmp, "Number Of Employees");
 
-                ArrayList<String> years = new ArrayList<String>();
+                /*ArrayList<String> years = new ArrayList<String>();
 
                 years.add("2008");
                 years.add("2009");
@@ -110,7 +109,7 @@ public class buildChart extends AppCompatActivity {
                 years.add("2014");
                 years.add("2015");
                 years.add("2016");
-                years.add("2017");
+                years.add("2017");*/
                 PieData pieData = new PieData(dataSett);
                 pieChart.setData(pieData);
                 pieChart.invalidate(); // refresh

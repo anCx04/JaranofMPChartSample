@@ -235,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
                 selectionData = 1;
             }
             else{
-                selectionData = 99;
                 setSelection(selection);
             }
             if (selection.equals("a Barre") || selection.equals("a Linee") || selection.equals("a Torta")) {
