@@ -112,9 +112,8 @@ public class MainActivity extends AppCompatActivity {
         final Switch swEnabledLegend;
         final Switch swEnabledLabel;
         private int selectionData = 99;
-        final Bundle bundle = new Bundle();
-
-        Intent intent = new Intent(getApplicationContext(),buildChart.class);
+        private Bundle bundle = new Bundle();
+        private Intent intent = new Intent(getApplicationContext(),buildChart.class);
 
         Holder() {
 
@@ -139,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 void fill(List<dati> cnt) {
                     filltext(cnt);
                     //data = cnt;
-                    Log.w("CA", String.valueOf(data));
+
                 }
             };
         }
@@ -151,23 +150,35 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void filltext(List<dati> cnt) {
-
+            ArrayList<Integer> dati = new ArrayList<Integer>();
             switch(selectionData) {
                 case 0:
+
                     for (int i = 0; i < cnt.size(); i++) {
-                        setSelection(cnt.get(4).getData());
+                        dati.add(cnt.get(i).getTamponi());
+                        Log.w("CA", "for "+i+":"+cnt.get(i).getTamponi());
                     }
+                    setData(dati);
                     break;
                 case 1:
                     for (int i = 0; i < cnt.size(); i++) {
-                        setSelection(cnt.get(cnt.size() - 1).getData());
+                        dati.add(cnt.get(i).getTotale_positivi());
                     }
+                    setData(dati);
+                    break;
+                case 2:
+                    for (int i = 0; i < cnt.size()-1; i++) {
+                        dati.add(cnt.get(i).getDimessi_guariti());
+                    }
+                    setData(dati);
                     break;
                 default:
                     break;
             }
 
         }
+
+
 
 
         int i = 0;
@@ -253,19 +264,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void setSelection(String selection) {
-            intent.putExtra("selection", selection);
+        private void setSelection(String selection) {
+            bundle.putString("selection", selection);
         }
 
-        public void setSwLabel(Boolean isChecked) {
-            intent.putExtra("swLabel", isChecked);
+        private void setSwLabel(Boolean isChecked) {
+            bundle.putBoolean("swLabel", isChecked);
         }
 
-        public void setSwLegend(Boolean isChecked) {
-            intent.putExtra("swLegend", isChecked);
+        private void setSwLegend(Boolean isChecked) {
+            bundle.putBoolean("swLegend", isChecked);
+        }
+
+        private void setData(ArrayList<Integer> data) {
+            bundle.putIntegerArrayList("dati",data);
         }
 
         public void getAll() {
+            intent.putExtras(bundle);
             startActivity(intent);
         }
 
