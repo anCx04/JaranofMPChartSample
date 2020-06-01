@@ -75,7 +75,7 @@ public class buildChart extends AppCompatActivity {
                 break;
             case "a Linee":
                 setContentView(R.layout.activity_line_chart);
-
+                //ciao francesca
                 Toast.makeText(this, "LINEEEE", Toast.LENGTH_LONG).show();
                 LineChart lineChart;
 
