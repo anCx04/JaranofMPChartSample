@@ -30,7 +30,6 @@ public class buildChart extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_build_chart);
         Bundle data = getIntent().getExtras();
 
 
@@ -46,7 +45,10 @@ public class buildChart extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
         switch (selection) {
             case "a Barre":
-                for (int i = 0; i < num.size(); i++) {
+                List<BarEntry> NmOfEmp = new ArrayList<>();
+                NmOfEmp.add(new BarEntry(0,num.get(0)));
+                for (int i = 1; i < num.size(); i++) {
+                    NmOfEmp.add(new BarEntry(i, num.get(i)-num.get(i-1)));
                     Log.w("CB", "for "+i+":"+num.size());
                 }
                 setContentView(R.layout.activity_bar_chart);
@@ -54,39 +56,23 @@ public class buildChart extends AppCompatActivity {
                 Toast.makeText(this, "barrrr", Toast.LENGTH_LONG).show();
                 BarChart chart = findViewById(R.id.chart);
 
-                List<BarEntry> NmOfEmp = new ArrayList<>();
-
-                NmOfEmp.add(new BarEntry(945f, 0));
-                NmOfEmp.add(new BarEntry(1040f, 1));
-                NmOfEmp.add(new BarEntry(1133f, 2));
-                NmOfEmp.add(new BarEntry(1240f, 3));
-                NmOfEmp.add(new BarEntry(1369f, 4));
-                NmOfEmp.add(new BarEntry(1487f, 5));
-                NmOfEmp.add(new BarEntry(1501f, 6));
-                NmOfEmp.add(new BarEntry(1645f, 7));
-                NmOfEmp.add(new BarEntry(1578f, 8));
-                NmOfEmp.add(new BarEntry(1695f, 9));
-
+                chart.setTouchEnabled(true);
+                chart.setDragEnabled(true);
+                chart.setPinchZoom(true);
                 BarDataSet bardataset = new BarDataSet(NmOfEmp, "No Of Employee");
                 BarData barData = new BarData(bardataset);
+                barData.setBarWidth(0.9f);
+                chart.setFitBars(true);
                 chart.setData(barData);
                 chart.invalidate(); // refresh
 //.0
                 break;
             case "a Linee":
-                setContentView(R.layout.activity_line_chart);
-                //ciao francesca
                 Toast.makeText(this, "LINEEEE", Toast.LENGTH_LONG).show();
-                LineChart lineChart;
-
-                lineChart = findViewById(R.id.chart);
                 ArrayList<Entry> NoOfEmp = new ArrayList<Entry>();
 
-                NoOfEmp.add(new Entry(0, 945f));
-                NoOfEmp.add(new Entry(1, 1040f));
-                NoOfEmp.add(new Entry(2, 1133f));
-                NoOfEmp.add(new Entry(3, 1240f));
-
+                setContentView(R.layout.activity_line_chart);
+                LineChart lineChart = findViewById(R.id.chart);
                 LineDataSet dataSet = new LineDataSet(NoOfEmp, "Label");
                 LineData lineData = new LineData(dataSet);
                 lineChart.setData(lineData);

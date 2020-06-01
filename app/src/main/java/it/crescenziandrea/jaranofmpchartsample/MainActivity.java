@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                 setSelection(selection);
             }
             if (selection.equals("a Barre") || selection.equals("a Linee") || selection.equals("a Torta")) {
-                putdata.setSelection(selection);
+                setSelection(selection);
             }
             Toast.makeText(parent.getContext(), selection, Toast.LENGTH_LONG).show();
         }
