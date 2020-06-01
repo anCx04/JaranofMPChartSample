@@ -46,9 +46,8 @@ public class buildChart extends AppCompatActivity {
         switch (selection) {
             case "a Barre":
                 List<BarEntry> NmOfEmp = new ArrayList<>();
-                NmOfEmp.add(new BarEntry(0,num.get(0)));
-                for (int i = 1; i < num.size(); i++) {
-                    NmOfEmp.add(new BarEntry(i, num.get(i)-num.get(i-1)));
+                for (int i = 0; i < num.size(); i++) {
+                    NmOfEmp.add(new BarEntry(i, num.get(i)));
                     Log.w("CB", "for "+i+":"+num.size());
                 }
                 setContentView(R.layout.activity_bar_chart);
@@ -68,9 +67,8 @@ public class buildChart extends AppCompatActivity {
                 break;
             case "a Linee":
                 List<Entry> NoOfEmp = new ArrayList<Entry>();
-                NoOfEmp.add(new Entry(0,num.get(0)));
-                for (int i = 1; i < num.size(); i++) {
-                    NoOfEmp.add(new Entry(i, num.get(i)-num.get(i-1)));
+                for (int i = 0; i < num.size(); i++) {
+                    NoOfEmp.add(new Entry(i, num.get(i)));
                 }
 
                 setContentView(R.layout.activity_line_chart);
@@ -79,6 +77,10 @@ public class buildChart extends AppCompatActivity {
                 lineChart.setDragEnabled(true);
                 lineChart.setPinchZoom(true);
                 LineDataSet dataSet = new LineDataSet(NoOfEmp, "Label");
+                lineChart.getHighlighted();
+                dataSet.setDrawValues(false);
+                dataSet.setDrawCircles(false);
+                dataSet.setDrawHighlightIndicators(true);
                 LineData lineData = new LineData(dataSet);
                 lineChart.setData(lineData);
                 lineChart.invalidate(); // refresh
@@ -86,30 +88,15 @@ public class buildChart extends AppCompatActivity {
                 break;
             case "a Torta":
                 List<PieEntry> NOfEmp = new ArrayList<PieEntry>();
-                NOfEmp.add(new PieEntry(0,num.get(0)));
                 for (int i = 1; i < num.size(); i++) {
-                    NOfEmp.add(new PieEntry(i, num.get(i)-num.get(i-1)));
+                    NOfEmp.add(new PieEntry(i, num.get(i)));
                 }
                 Toast.makeText(this, "pieeee", Toast.LENGTH_LONG).show();
 
                 setContentView(R.layout.activity_pie_chart);
                 PieChart pieChart = findViewById(R.id.chart);
 
-
                 PieDataSet dataSett = new PieDataSet(NOfEmp, "Number Of Employees");
-
-                /*ArrayList<String> years = new ArrayList<String>();
-
-                years.add("2008");
-                years.add("2009");
-                years.add("2010");
-                years.add("2011");
-                years.add("2012");
-                years.add("2013");
-                years.add("2014");
-                years.add("2015");
-                years.add("2016");
-                years.add("2017");*/
                 PieData pieData = new PieData(dataSett);
                 pieChart.setData(pieData);
                 pieChart.invalidate(); // refresh

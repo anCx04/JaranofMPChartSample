@@ -154,8 +154,9 @@ public class MainActivity extends AppCompatActivity {
             switch(selectionData) {
                 case 0:
 
-                    for (int i = 0; i < cnt.size(); i++) {
-                        dati.add(cnt.get(i).getTamponi());
+                    dati.add(cnt.get(0).getTamponi());
+                    for (int i = 1; i < cnt.size(); i++) {
+                        dati.add(cnt.get(i).getTamponi()-cnt.get(i-1).getTamponi());
                         Log.w("CA", "for "+i+":"+cnt.get(i).getTamponi());
                     }
                     setData(dati);
@@ -234,9 +235,10 @@ public class MainActivity extends AppCompatActivity {
             else if(selection.equals("Guariti")){
                 selectionData = 1;
             }
-            else{
-                setSelection(selection);
+            else if(selection.equals("malati")) {
+                selectionData = 2;
             }
+
             if (selection.equals("a Barre") || selection.equals("a Linee") || selection.equals("a Torta")) {
                 setSelection(selection);
             }
