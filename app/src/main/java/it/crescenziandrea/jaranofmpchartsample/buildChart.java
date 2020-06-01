@@ -63,7 +63,7 @@ public class buildChart extends AppCompatActivity {
                 BarData barData = new BarData(bardataset);
                 chart.setData(barData);
                 chart.invalidate(); // refresh
-//.
+//.0
                 break;
             case "a Linee":
                 setContentView(R.layout.activity_line_chart);
