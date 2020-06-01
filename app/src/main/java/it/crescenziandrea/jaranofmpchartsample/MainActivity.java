@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
              */
         }
 
-
+//vhfg
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String selection = parent.getItemAtPosition(position).toString();
@@ -238,6 +238,10 @@ public class MainActivity extends AppCompatActivity {
                 selectionData = 99;
                 setSelection(selection);
             }
+            if (selection.equals("a Barre") || selection.equals("a Linee") || selection.equals("a Torta")) {
+                putdata.setSelection(selection);
+            }
+            Toast.makeText(parent.getContext(), selection, Toast.LENGTH_LONG).show();
         }
 
         @Override
