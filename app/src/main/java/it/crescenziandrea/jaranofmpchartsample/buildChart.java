@@ -2,23 +2,35 @@ package it.crescenziandrea.jaranofmpchartsample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.utils.MPPointF;
+import com.github.mikephil.charting.utils.Utils;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -26,6 +38,8 @@ import java.util.List;
 
 //lista di elementi di tipo dati
 public class buildChart extends AppCompatActivity {
+
+    MyMarkerView mv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +67,53 @@ public class buildChart extends AppCompatActivity {
                 setContentView(R.layout.activity_bar_chart);
 
                 Toast.makeText(this, "barrrr", Toast.LENGTH_LONG).show();
-                BarChart chart = findViewById(R.id.chart);
+                final BarChart chart = findViewById(R.id.chart);
+
+
+
+
+                mv = new MyMarkerView(this, R.layout.marker_view);
+                chart.setMarker(mv);
+
+                chart.setOnChartGestureListener(new OnChartGestureListener() {
+
+                    @Override
+                    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+                    }
+
+                    @Override
+                    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+                        // un-highlight values after the gesture is finished and no single-tap
+                        if (lastPerformedGesture != ChartTouchListener.ChartGesture.SINGLE_TAP) {
+                                chart.highlightValues(null); // or highlightTouch(null) for callback to onNothingSelected(...)
+
+                            }
+                    }
+
+                    @Override
+                    public void onChartLongPressed(MotionEvent me) {
+                    }
+
+                    @Override
+                    public void onChartDoubleTapped(MotionEvent me) {
+                    }
+
+                    @Override
+                    public void onChartSingleTapped(MotionEvent me) {
+                    }
+
+                    @Override
+                    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+                    }
+
+                    @Override
+                    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
+                    }
+
+                    @Override
+                    public void onChartTranslate(MotionEvent me, float dX, float dY) {
+                    }
+                });
 
                 chart.setTouchEnabled(true);
                 chart.setDragEnabled(true);
@@ -63,7 +123,8 @@ public class buildChart extends AppCompatActivity {
                 barData.setBarWidth(0.9f);
                 chart.setFitBars(true);
                 chart.setData(barData);
-                chart.invalidate();
+                chart.invalidate(); // refresh
+//.0
                 break;
             case "a Linee":
                 List<Entry> NoOfEmp = new ArrayList<Entry>();
@@ -72,7 +133,51 @@ public class buildChart extends AppCompatActivity {
                 }
 
                 setContentView(R.layout.activity_line_chart);
-                LineChart lineChart = findViewById(R.id.chart);
+                final LineChart lineChart = findViewById(R.id.chart);
+
+                mv = new MyMarkerView(this, R.layout.marker_view);
+                lineChart.setMarker(mv);
+
+                lineChart.setOnChartGestureListener(new OnChartGestureListener() {
+
+                    @Override
+                    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+                    }
+
+                    @Override
+                    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+                        // un-highlight values after the gesture is finished and no single-tap
+                        if (lastPerformedGesture != ChartTouchListener.ChartGesture.SINGLE_TAP) {
+                            lineChart.highlightValues(null); // or highlightTouch(null) for callback to onNothingSelected(...)
+
+                        }
+                    }
+
+                    @Override
+                    public void onChartLongPressed(MotionEvent me) {
+                    }
+
+                    @Override
+                    public void onChartDoubleTapped(MotionEvent me) {
+                    }
+
+                    @Override
+                    public void onChartSingleTapped(MotionEvent me) {
+                    }
+
+                    @Override
+                    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+                    }
+
+                    @Override
+                    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
+                    }
+
+                    @Override
+                    public void onChartTranslate(MotionEvent me, float dX, float dY) {
+                    }
+                });
+
                 lineChart.setTouchEnabled(true);
                 lineChart.setDragEnabled(true);
                 lineChart.setPinchZoom(true);
@@ -96,6 +201,8 @@ public class buildChart extends AppCompatActivity {
                 setContentView(R.layout.activity_pie_chart);
                 PieChart pieChart = findViewById(R.id.chart);
 
+
+
                 PieDataSet dataSett = new PieDataSet(NOfEmp, "Number Of Employees");
                 PieData pieData = new PieData(dataSett);
                 pieChart.setData(pieData);
@@ -107,6 +214,46 @@ public class buildChart extends AppCompatActivity {
 
                 //TODO: boh
         }
+    }
+
+    public class MyMarkerView extends MarkerView {
+
+        private TextView tvContent;
+
+        public MyMarkerView(Context context, int layoutResource) {
+            super(context, layoutResource);
+            // this markerview only displays a textview
+            tvContent = (TextView) findViewById(R.id.tvContent);
+        }
+
+// callbacks everytime the MarkerView is redrawn, can be used to update the
+// content (user-interface)
+
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+            //tvContent.setText("day: " + e.getX() + "\n"+"Value: " + e.getY()); // set the entry-value as the display text
+
+            if (e instanceof CandleEntry) {
+
+                CandleEntry ce = (CandleEntry) e;
+
+                tvContent.setText("" + Utils.formatNumber(ce.getHigh(), 0, true));
+            } else {
+
+                tvContent.setText("" + Utils.formatNumber(e.getY(), 0, true));
+            }
+
+            super.refreshContent(e, highlight);
+
+
+        }
+
+        @Override
+        public MPPointF getOffset() {
+            return new MPPointF(-(getWidth() / 2), -getHeight());
+        }
+
+
     }
 
 }
