@@ -3,18 +3,16 @@ package it.crescenziandrea.jaranofmpchartsample;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -29,10 +27,10 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,18 +43,18 @@ public class buildChart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle data = getIntent().getExtras();
+        int sum = 0;
+        ArrayList EntryPie = new ArrayList();
+        PieDataSet PiedataSet;
+        PieData pieData;
+        PieChart pieChart;
+        Legend legend;
 
-
-        /*YourData[] dataObjects = data;
-        List<Entry> entries = new ArrayList<Entry>();
-        for (YourData data : dataObjects) {
-// turn your data into Entry objects
-            entries.add(new Entry(data.getValueX(), data.getValueY()));
-        }*/
 
         String selection = data.getString("selection");
+        int percenctage = data.getInt("percenctage");
+        Boolean swLegend = data.getBoolean("swLegend");
         ArrayList<Integer> num = data.getIntegerArrayList("dati");
-        Toast.makeText(getApplicationContext(), selection, Toast.LENGTH_LONG).show();
         switch (selection) {
             case "a Barre":
                 List<BarEntry> NmOfEmp = new ArrayList<>();
@@ -66,8 +64,7 @@ public class buildChart extends AppCompatActivity {
                 }
                 setContentView(R.layout.activity_bar_chart);
 
-                Toast.makeText(this, "barrrr", Toast.LENGTH_LONG).show();
-                final BarChart chart = findViewById(R.id.chart);
+                final BarChart chart = findViewById(R.id.barChart);
 
 
 
@@ -115,15 +112,37 @@ public class buildChart extends AppCompatActivity {
                     }
                 });
 
+                legend = chart.getLegend();
+
+                legend.setEnabled(swLegend);
                 chart.setTouchEnabled(true);
                 chart.setDragEnabled(true);
                 chart.setPinchZoom(true);
-                BarDataSet bardataset = new BarDataSet(NmOfEmp, "No Of Employee");
+                BarDataSet bardataset = new BarDataSet(NmOfEmp, "selezione");
                 BarData barData = new BarData(bardataset);
                 barData.setBarWidth(0.9f);
                 chart.setFitBars(true);
                 chart.setData(barData);
                 chart.invalidate(); // refresh
+
+                //pie chart
+                pieChart = findViewById(R.id.pieChart);
+
+                for (int i = 0; i < num.size(); i++) {
+                    sum += num.get(i);
+                }
+               EntryPie.add(new PieEntry(sum, "selzione"));
+               EntryPie.add(new PieEntry(60360000, "popolazione italiana"));
+
+                PiedataSet = new PieDataSet(EntryPie, "");
+
+                legend = pieChart.getLegend();
+                legend.setEnabled(swLegend);
+                pieData = new PieData(PiedataSet);
+                pieChart.setHoleRadius(percenctage/2);
+                pieChart.setData(pieData);
+                PiedataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                pieChart.invalidate(); // refresh
 //.0
                 break;
             case "a Linee":
@@ -133,7 +152,7 @@ public class buildChart extends AppCompatActivity {
                 }
 
                 setContentView(R.layout.activity_line_chart);
-                final LineChart lineChart = findViewById(R.id.chart);
+                final LineChart lineChart = findViewById(R.id.lineChart);
 
                 mv = new MyMarkerView(this, R.layout.marker_view);
                 lineChart.setMarker(mv);
@@ -178,6 +197,8 @@ public class buildChart extends AppCompatActivity {
                     }
                 });
 
+                legend = lineChart.getLegend();
+                legend.setEnabled(swLegend);
                 lineChart.setTouchEnabled(true);
                 lineChart.setDragEnabled(true);
                 lineChart.setPinchZoom(true);
@@ -190,25 +211,29 @@ public class buildChart extends AppCompatActivity {
                 lineChart.setData(lineData);
                 lineChart.invalidate(); // refresh
 
-                break;
-            case "a Torta":
-                List<PieEntry> NOfEmp = new ArrayList<PieEntry>();
-                for (int i = 1; i < num.size(); i++) {
-                    NOfEmp.add(new PieEntry(i, num.get(i)));
+                //pie chart
+                pieChart = findViewById(R.id.pieChart);
+
+                for (int i = 0; i < num.size(); i++) {
+                    sum += num.get(i);
                 }
-                Toast.makeText(this, "pieeee", Toast.LENGTH_LONG).show();
+                EntryPie.add(new PieEntry(sum, "selezione"));
+                EntryPie.add(new PieEntry(60360000, "popolazione italiana"));
 
-                setContentView(R.layout.activity_pie_chart);
-                PieChart pieChart = findViewById(R.id.chart);
+                PiedataSet = new PieDataSet(EntryPie, "");
 
-
-
-                PieDataSet dataSett = new PieDataSet(NOfEmp, "Number Of Employees");
-                PieData pieData = new PieData(dataSett);
+                legend = pieChart.getLegend();
+                legend.setEnabled(swLegend);
+                pieData = new PieData(PiedataSet);
                 pieChart.setData(pieData);
+                pieChart.setHoleRadius(percenctage/2);
+                PiedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
                 pieChart.invalidate(); // refresh
+//.0
+
 
                 break;
+
 
             default:
 
@@ -222,16 +247,11 @@ public class buildChart extends AppCompatActivity {
 
         public MyMarkerView(Context context, int layoutResource) {
             super(context, layoutResource);
-            // this markerview only displays a textview
             tvContent = (TextView) findViewById(R.id.tvContent);
         }
 
-// callbacks everytime the MarkerView is redrawn, can be used to update the
-// content (user-interface)
-
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
-            //tvContent.setText("day: " + e.getX() + "\n"+"Value: " + e.getY()); // set the entry-value as the display text
 
             if (e instanceof CandleEntry) {
 

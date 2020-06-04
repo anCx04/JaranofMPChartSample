@@ -6,74 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <Spinner
         android:id="@+id/spChartSelection"
         android:layout_width="190dp"
         android:layout_height="28dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="180dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="8dp"
         android:text="Hello World!"
         app:layout_constraintBottom_toTopOf="@+id/swEnableLegend"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spChartArgument" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spChartArgument"
         android:layout_width="190dp"
         android:layout_height="28dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="181dp"
-        android:layout_marginEnd="180dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:text="Hello World!"
         app:layout_constraintBottom_toTopOf="@+id/spChartSelection"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btGenerate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="273dp"
+        android:layout_marginTop="8dp"
         android:text="Genera"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swLabelEnable" />
+        app:layout_constraintTop_toBottomOf="@+id/sbHole" />
 
     <Switch
         android:id="@+id/swEnableLegend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="16dp"
         android:text="Legenda"
-        app:layout_constraintBottom_toTopOf="@+id/swLabelEnable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.445" />
+
+    <SeekBar
+        android:id="@+id/sbHole"
+        android:layout_width="191dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spChartSelection" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <Switch
-        android:id="@+id/swLabelEnable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="30dp"
-        android:text="Etichette"
-        app:layout_constraintBottom_toTopOf="@+id/btGenerate"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="183dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="8dp"
+        android:text="cerchio della torta:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/swEnableLegend" />
+
+    <TextView
+        android:id="@+id/tvProgress"
+        android:layout_width="37dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="8dp"
+        android:text="0%"
+        app:layout_constraintBottom_toBottomOf="@+id/sbHole"
+        app:layout_constraintStart_toEndOf="@+id/sbHole"
+        app:layout_constraintTop_toTopOf="@+id/sbHole" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

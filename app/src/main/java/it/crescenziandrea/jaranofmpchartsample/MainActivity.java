@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
@@ -110,25 +111,43 @@ public class MainActivity extends AppCompatActivity {
         final Spinner spChartType;
         final Spinner spChartArgument;
         final Switch swEnabledLegend;
-        final Switch swEnabledLabel;
+        final SeekBar sbHole;
+        final TextView tvProgress;
         private int selectionData = 99;
         private Bundle bundle = new Bundle();
         private Intent intent = new Intent(getApplicationContext(),buildChart.class);
 
         Holder() {
 
-            swEnabledLabel = findViewById(R.id.swLabelEnable);
             swEnabledLegend = findViewById(R.id.swEnableLegend);
             spChartType = findViewById(R.id.spChartSelection);
             spChartArgument = findViewById(R.id.spChartArgument);
+            tvProgress = findViewById(R.id.tvProgress);
             btGenerate = findViewById(R.id.btGenerate);
+            sbHole = findViewById(R.id.sbHole);
             btGenerate.setOnClickListener(this);
 
             spinnerAdapter(spChartType, R.array.ChartType);
             spinnerAdapter(spChartArgument, R.array.ChartArgument);
+            sbHole.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    tvProgress.setText(""+progress+"%");
+                    bundle.putInt("percenctage", progress);
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
 
             swEnabledLegend.setOnCheckedChangeListener(this);
-            swEnabledLabel.setOnCheckedChangeListener(this);
 
             spChartArgument.setOnItemSelectedListener(this);
             spChartType.setOnItemSelectedListener(this);
@@ -191,39 +210,7 @@ public class MainActivity extends AppCompatActivity {
 
             model.search();
             Log.w("CA", "onclick");
-            /*
-            if(i == 2) {
-            i=0;
-
-
-            ArrayList<String> prova1 = new ArrayList<>();
-            prova1.add(data.get(0).getData());
-            prova1.add(data.get(1).getData());
-            prova1.add(data.get(2).getData());
-
-            ArrayList<Integer> prova2 = new ArrayList<Integer>();
-            prova2.add(data.get(0).getTotale_ospedalizzati());
-            prova2.add(data.get(1).getTotale_ospedalizzati());
-            prova2.add(data.get(2).getTotale_ospedalizzati());
-
-             Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putStringArrayList("prova1",prova1);
-            bundle.putIntegerArrayList("prova2",prova2);
-            intent.putExtras(bundle);
-
-
-                startActivity(intent);
-            }
-*/
-            /*
-            if(v == btGenerate) {
-                putdata.getAll();
-            }
-             */
         }
-
-//vhfg
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String selection = parent.getItemAtPosition(position).toString();
@@ -239,10 +226,9 @@ public class MainActivity extends AppCompatActivity {
                 selectionData = 2;
             }
 
-            if (selection.equals("a Barre") || selection.equals("a Linee") || selection.equals("a Torta")) {
+            if (selection.equals("a Barre") || selection.equals("a Linee")) {
                 setSelection(selection);
             }
-            Toast.makeText(parent.getContext(), selection, Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -253,18 +239,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-            if (!swEnabledLabel.isChecked()) {
-                Toast.makeText(getApplicationContext(), "label on", Toast.LENGTH_LONG).show();
-                setSwLabel(isChecked);
-            } else {
-                Toast.makeText(getApplicationContext(), "label off", Toast.LENGTH_LONG).show();
-                setSwLabel(isChecked);
-            }
             if (!swEnabledLegend.isChecked()) {
-                Toast.makeText(getApplicationContext(), "legend on", Toast.LENGTH_LONG).show();
                 setSwLegend(isChecked);
             } else {
-                Toast.makeText(getApplicationContext(), "legend off", Toast.LENGTH_LONG).show();
                 setSwLegend(isChecked);
             }
         }
@@ -273,13 +250,8 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString("selection", selection);
         }
 
-        private void setSwLabel(Boolean isChecked) {
-            bundle.putBoolean("swLabel", isChecked);
-        }
 
-        private void setSwLegend(Boolean isChecked) {
-            bundle.putBoolean("swLegend", isChecked);
-        }
+        private void setSwLegend(Boolean isChecked) { bundle.putBoolean("swLegend", isChecked); }
 
         private void setData(ArrayList<Integer> data) {
             bundle.putIntegerArrayList("dati",data);

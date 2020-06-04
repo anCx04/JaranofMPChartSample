@@ -13,8 +13,8 @@
     <string-array name="ChartType">
         <item>a Barre</item>
         <item>a Linee</item>
-        <item>a Torta</item>
     </string-array>
+
 
     <string-array name="ChartArgument">
         <item>Tamponi effettuati</item>
