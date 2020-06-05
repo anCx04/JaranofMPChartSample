@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundc"
     tools:context=".MainActivity">
 
     <Spinner
@@ -11,6 +12,7 @@
         android:layout_width="190dp"
         android:layout_height="28dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="#FFFFFF"
         android:text="Hello World!"
         app:layout_constraintBottom_toTopOf="@+id/swEnableLegend"
         app:layout_constraintEnd_toEndOf="parent"
