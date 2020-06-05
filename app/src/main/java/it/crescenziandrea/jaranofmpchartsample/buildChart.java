@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -28,7 +27,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -148,7 +146,7 @@ public class buildChart extends AppCompatActivity {
 //.0
                 break;
             case "a Linee":
-                List<Entry> NoOfEmp = new ArrayList<Entry>();
+                List<Entry> NoOfEmp = new ArrayList<>();
                 for (int i = 0; i < num.size(); i++) {
                     NoOfEmp.add(new Entry(i, num.get(i)));
                 }
@@ -250,7 +248,7 @@ public class buildChart extends AppCompatActivity {
 
         public MyMarkerView(Context context, int layoutResource) {
             super(context, layoutResource);
-            tvContent = (TextView) findViewById(R.id.tvContent);
+            tvContent = findViewById(R.id.tvContent);
         }
 
         @Override
@@ -273,7 +271,7 @@ public class buildChart extends AppCompatActivity {
 
         @Override
         public MPPointF getOffset() {
-            return new MPPointF(-(getWidth() / 2), -getHeight());
+            return new MPPointF(-(getWidth() /2), -getHeight());
         }
 
 

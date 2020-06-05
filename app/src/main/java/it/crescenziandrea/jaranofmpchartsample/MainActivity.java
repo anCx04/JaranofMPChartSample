@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +29,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    boolean recive = true;
 
 
     Holder holder;
@@ -107,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
         final Button btGenerate;
         final Volley model;
-        private List<dati> data;
         final Spinner spChartType;
         final Spinner spChartArgument;
         final Switch swEnabledLegend;
@@ -169,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void filltext(List<dati> cnt) {
-            ArrayList<Integer> dati = new ArrayList<Integer>();
+            ArrayList<Integer> dati = new ArrayList<>();
             switch(selectionData) {
                 case 0:
 
