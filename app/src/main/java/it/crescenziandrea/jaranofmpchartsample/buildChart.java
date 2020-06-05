@@ -1,6 +1,7 @@
 package it.crescenziandrea.jaranofmpchartsample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -49,7 +50,7 @@ public class buildChart extends AppCompatActivity {
         PieData pieData;
         PieChart pieChart;
         Legend legend;
-
+        int colorAccent = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
 
         String selection = data.getString("selection");
         int percenctage = data.getInt("percenctage");
@@ -120,6 +121,7 @@ public class buildChart extends AppCompatActivity {
                 chart.setPinchZoom(true);
                 BarDataSet bardataset = new BarDataSet(NmOfEmp, "selezione");
                 BarData barData = new BarData(bardataset);
+                bardataset.setColor(colorAccent);
                 barData.setBarWidth(0.9f);
                 chart.setFitBars(true);
                 chart.setData(barData);
@@ -141,7 +143,7 @@ public class buildChart extends AppCompatActivity {
                 pieData = new PieData(PiedataSet);
                 pieChart.setHoleRadius(percenctage/2);
                 pieChart.setData(pieData);
-                PiedataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                PiedataSet.setColors(new int[] {R.color.colorAccent, R.color.colorPrimary}, getApplicationContext());
                 pieChart.invalidate(); // refresh
 //.0
                 break;
@@ -203,6 +205,7 @@ public class buildChart extends AppCompatActivity {
                 lineChart.setDragEnabled(true);
                 lineChart.setPinchZoom(true);
                 LineDataSet dataSet = new LineDataSet(NoOfEmp, "Label");
+                dataSet.setColors(colorAccent);
                 lineChart.getHighlighted();
                 dataSet.setDrawValues(false);
                 dataSet.setDrawCircles(false);
@@ -227,7 +230,7 @@ public class buildChart extends AppCompatActivity {
                 pieData = new PieData(PiedataSet);
                 pieChart.setData(pieData);
                 pieChart.setHoleRadius(percenctage/2);
-                PiedataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+                PiedataSet.setColors(new int[] {R.color.colorPrimary, R.color.colorAccent}, getApplicationContext());
                 pieChart.invalidate(); // refresh
 //.0
 
