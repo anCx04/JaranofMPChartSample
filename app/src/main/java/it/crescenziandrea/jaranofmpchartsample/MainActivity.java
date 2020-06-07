@@ -184,8 +184,9 @@ public class MainActivity extends AppCompatActivity {
                     setData(dati);
                     break;
                 case 2:
-                    for (int i = 0; i < cnt.size()-1; i++) {
-                        dati.add(cnt.get(i).getDimessi_guariti());
+                    dati.add(cnt.get(0).getDimessi_guariti());
+                    for (int i = 1; i < cnt.size()-1; i++) {
+                        dati.add(cnt.get(i).getDimessi_guariti()-cnt.get(i-1).getDimessi_guariti());
                     }
                     setData(dati);
                     break;
@@ -216,10 +217,10 @@ public class MainActivity extends AppCompatActivity {
                 selectionData = 0;
 
             }
-            else if(selection.equals("Guariti")){
+            else if(selection.equals("Contagiati")){
                 selectionData = 1;
             }
-            else if(selection.equals("malati")) {
+            else if(selection.equals("Guariti")) {
                 selectionData = 2;
             }
 

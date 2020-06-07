@@ -4,21 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
@@ -33,10 +26,11 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -161,7 +155,7 @@ public class buildChart extends AppCompatActivity {
                 for (int i = 0; i < num.size(); i++) {
                     sum += num.get(i);
                 }
-               EntryPie.add(new PieEntry(sum, "selzione"));
+               EntryPie.add(new PieEntry(sum, "Selezione"));
                EntryPie.add(new PieEntry(60360000, "popolazione italiana"));
 
                 PiedataSet = new PieDataSet(EntryPie, "");
@@ -173,12 +167,13 @@ public class buildChart extends AppCompatActivity {
                 pieChart.setHoleRadius(percenctage/2);
                 pieChart.setData(pieData);
                 PiedataSet.setColors(new int[] {R.color.colorAccent, R.color.colorPrimary}, getApplicationContext());
-
                 pieChart.setHoleColor(background);
                 pieChart.setCenterText("JARANOF\ncovid19 MPchart");
                 pieChart.setCenterTextSize(20f);
                 pieChart.setCenterTextColor(labelColor);
+                pieChart.setUsePercentValues(true);
 
+                PercentFormatter percentFormatter = new PercentFormatter()
                 pieChart.invalidate(); // refresh
 //.0
                 break;
@@ -239,7 +234,7 @@ public class buildChart extends AppCompatActivity {
                 lineChart.setTouchEnabled(true);
                 lineChart.setDragEnabled(true);
                 lineChart.setPinchZoom(true);
-                LineDataSet dataSet = new LineDataSet(LineEntryList, "Label");
+                LineDataSet dataSet = new LineDataSet(LineEntryList, "Selezione");
                 dataSet.setColors(colorAccent);
                 lineChart.getHighlighted();
                 dataSet.setDrawValues(false);

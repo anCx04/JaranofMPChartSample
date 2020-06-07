@@ -22,7 +22,7 @@
 
     <string-array name="ChartArgument">
         <item>Tamponi effettuati</item>
-        <item>Malati</item>
+        <item>Contagiati</item>
         <item>Guariti</item>
     </string-array>
 </resources>
