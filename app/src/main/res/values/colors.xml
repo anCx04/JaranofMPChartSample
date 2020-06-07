@@ -13,4 +13,5 @@
     <color name="backgroundc">#424242</color>
     <color name="text1">#FFFFFF</color>
     <color name="backgroundmenu">#757575</color>
+    <color name="gridcolor">#FFFFFF</color>
 </resources>

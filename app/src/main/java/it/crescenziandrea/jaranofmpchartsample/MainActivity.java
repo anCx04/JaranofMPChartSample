@@ -160,8 +160,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void spinnerAdapter(Spinner spChart, int ItemType) {
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), ItemType, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), ItemType, R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
             spChart.setAdapter(adapter);
         }
 

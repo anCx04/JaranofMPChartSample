@@ -4,16 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -27,6 +36,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -49,6 +59,9 @@ public class buildChart extends AppCompatActivity {
         PieChart pieChart;
         Legend legend;
         int colorAccent = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
+        int labelColor = ContextCompat.getColor(getApplicationContext(), R.color.gridcolor);
+        int background = ContextCompat.getColor(getApplicationContext(), R.color.backgroundc);
+
 
         String selection = data.getString("selection");
         int percenctage = data.getInt("percenctage");
@@ -123,6 +136,23 @@ public class buildChart extends AppCompatActivity {
                 barData.setBarWidth(0.9f);
                 chart.setFitBars(true);
                 chart.setData(barData);
+                legend.setTextColor(labelColor);
+
+                XAxis x1 = chart.getXAxis();
+                x1.setAxisLineWidth(2f);
+                x1.setGridColor(labelColor);
+                x1.setTextColor(labelColor);
+
+                YAxis left1 = chart.getAxisLeft();
+                left1.setAxisLineWidth(2f);
+                left1.setGridColor(labelColor);
+                left1.setTextColor(labelColor);
+
+                YAxis right1 = chart.getAxisRight();
+                right1.setAxisLineWidth(2f);
+                right1.setGridColor(labelColor);
+                right1.setDrawLabels(false);
+
                 chart.invalidate(); // refresh
 
                 //pie chart
@@ -138,10 +168,17 @@ public class buildChart extends AppCompatActivity {
 
                 legend = pieChart.getLegend();
                 legend.setEnabled(swLegend);
+                legend.setTextColor(labelColor);
                 pieData = new PieData(PiedataSet);
                 pieChart.setHoleRadius(percenctage/2);
                 pieChart.setData(pieData);
                 PiedataSet.setColors(new int[] {R.color.colorAccent, R.color.colorPrimary}, getApplicationContext());
+
+                pieChart.setHoleColor(background);
+                pieChart.setCenterText("JARANOF\ncovid19 MPchart");
+                pieChart.setCenterTextSize(20f);
+                pieChart.setCenterTextColor(labelColor);
+
                 pieChart.invalidate(); // refresh
 //.0
                 break;
@@ -210,6 +247,23 @@ public class buildChart extends AppCompatActivity {
                 dataSet.setDrawHighlightIndicators(true);
                 LineData lineData = new LineData(dataSet);
                 lineChart.setData(lineData);
+                legend.setTextColor(labelColor);
+
+                XAxis x = lineChart.getXAxis();
+                x.setAxisLineWidth(2f);
+                x.setGridColor(labelColor);
+                x.setTextColor(labelColor);
+
+                YAxis left = lineChart.getAxisLeft();
+                left.setAxisLineWidth(2f);
+                left.setGridColor(labelColor);
+                left.setTextColor(labelColor);
+
+                YAxis right = lineChart.getAxisRight();
+                right.setAxisLineWidth(2f);
+                right.setGridColor(labelColor);
+                right.setDrawLabels(false);
+
                 lineChart.invalidate(); // refresh
 
                 //pie chart
@@ -225,10 +279,17 @@ public class buildChart extends AppCompatActivity {
 
                 legend = pieChart.getLegend();
                 legend.setEnabled(swLegend);
+                legend.setTextColor(labelColor);
                 pieData = new PieData(PiedataSet);
                 pieChart.setData(pieData);
                 pieChart.setHoleRadius(percenctage/2);
                 PiedataSet.setColors(new int[] {R.color.colorPrimary, R.color.colorAccent}, getApplicationContext());
+
+                pieChart.setHoleColor(background);
+                pieChart.setCenterText("JARANOF\ncovid19 MPchart");
+                pieChart.setCenterTextSize(20f);
+                pieChart.setCenterTextColor(labelColor);
+
                 pieChart.invalidate(); // refresh
 //.0
 
