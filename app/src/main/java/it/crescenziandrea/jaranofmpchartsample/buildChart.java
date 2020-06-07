@@ -56,9 +56,9 @@ public class buildChart extends AppCompatActivity {
         ArrayList<Integer> num = data.getIntegerArrayList("dati");
         switch (selection) {
             case "a Barre":
-                List<BarEntry> NmOfEmp = new ArrayList<>();
+                List<BarEntry> BarEntryList = new ArrayList<>();
                 for (int i = 0; i < num.size(); i++) {
-                    NmOfEmp.add(new BarEntry(i, num.get(i)));
+                    BarEntryList.add(new BarEntry(i, num.get(i)));
                     Log.w("CB", "for "+i+":"+num.size());
                 }
                 setContentView(R.layout.activity_bar_chart);
@@ -117,7 +117,7 @@ public class buildChart extends AppCompatActivity {
                 chart.setTouchEnabled(true);
                 chart.setDragEnabled(true);
                 chart.setPinchZoom(true);
-                BarDataSet bardataset = new BarDataSet(NmOfEmp, "selezione");
+                BarDataSet bardataset = new BarDataSet(BarEntryList, "selezione");
                 BarData barData = new BarData(bardataset);
                 bardataset.setColor(colorAccent);
                 barData.setBarWidth(0.9f);
@@ -146,9 +146,9 @@ public class buildChart extends AppCompatActivity {
 //.0
                 break;
             case "a Linee":
-                List<Entry> NoOfEmp = new ArrayList<>();
+                List<Entry> LineEntryList = new ArrayList<>();
                 for (int i = 0; i < num.size(); i++) {
-                    NoOfEmp.add(new Entry(i, num.get(i)));
+                    LineEntryList.add(new Entry(i, num.get(i)));
                 }
 
                 setContentView(R.layout.activity_line_chart);
@@ -202,7 +202,7 @@ public class buildChart extends AppCompatActivity {
                 lineChart.setTouchEnabled(true);
                 lineChart.setDragEnabled(true);
                 lineChart.setPinchZoom(true);
-                LineDataSet dataSet = new LineDataSet(NoOfEmp, "Label");
+                LineDataSet dataSet = new LineDataSet(LineEntryList, "Label");
                 dataSet.setColors(colorAccent);
                 lineChart.getHighlighted();
                 dataSet.setDrawValues(false);

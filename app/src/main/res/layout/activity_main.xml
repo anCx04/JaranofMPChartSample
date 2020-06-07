@@ -9,22 +9,27 @@
 
     <Spinner
         android:id="@+id/spChartSelection"
-        android:layout_width="190dp"
-        android:layout_height="28dp"
+        android:layout_width="215dp"
+        android:layout_height="30dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@color/colorAccent"
+        android:popupBackground="@color/backgroundmenu"
+        android:splitMotionEvents="false"
         android:text="Hello World!"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/swEnableLegend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spChartArgument"
-        android:layout_width="190dp"
-        android:layout_height="28dp"
+        android:layout_width="215dp"
+        android:layout_height="29dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@color/colorAccent"
+        android:popupBackground="@color/backgroundmenu"
         android:text="Hello World!"
+        android:textColor="@color/text1"
         app:layout_constraintBottom_toTopOf="@+id/spChartSelection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -34,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorPrimary"
         android:text="@string/genera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/legenda"
+        android:textColor="@color/text1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"

@@ -11,7 +11,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="genera">Genera</string>
     <string name="legenda">Legenda</string>
-    <string name="cerchio_della_torta">cerchio della torta:</string>
+    <string name="cerchio_della_torta">foro interno grafico a torta:</string>
     <string name="_0">0%</string>
 
     <string-array name="ChartType">
