@@ -41,43 +41,58 @@ import java.util.List;
 public class buildChart extends AppCompatActivity {
 
     MyMarkerView mv;
+    int sum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // passaggio dati con il bundle dalla mainActivity
         Bundle data = getIntent().getExtras();
-        int sum = 0;
+
+
+
         ArrayList EntryPie = new ArrayList();
         PieDataSet PiedataSet;
         PieData pieData;
         PieChart pieChart;
         Legend legend;
+
+        // creazione colori per i grafici
         int colorAccent = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
         int labelColor = ContextCompat.getColor(getApplicationContext(), R.color.gridcolor);
         int background = ContextCompat.getColor(getApplicationContext(), R.color.backgroundc);
 
 
-        String selection = data.getString("selection");
-        int percenctage = data.getInt("percenctage");
-        Boolean swLegend = data.getBoolean("swLegend");
-        ArrayList<Integer> num = data.getIntegerArrayList("dati");
+        // salviamo i dati provenienti dal bundle nelle variabili
+
+        String selection = data.getString("selection");                     // var selezione primo grafico dell'activity
+        int percentage = data.getInt("percentage");                         // var percentuale foro del grafico a torta
+        Boolean swLegend = data.getBoolean("swLegend");                     // var booleana che attiva o disattiva le legende del grafico
+        ArrayList<Integer> num = data.getIntegerArrayList("dati");          // ArrayList dove vengono salvati i dati da plottare sui grafici
+
+        // switch di selezione del grafico
+
         switch (selection) {
             case "a Barre":
+
+                //passaggio di dati alla lista del grafico proveninte dall'Arraylist num
                 List<BarEntry> BarEntryList = new ArrayList<>();
                 for (int i = 0; i < num.size(); i++) {
                     BarEntryList.add(new BarEntry(i, num.get(i)));
                     Log.w("CB", "for "+i+":"+num.size());
                 }
+
+                // generiamo la view del grafico a barre
                 setContentView(R.layout.activity_bar_chart);
 
+                //definisce il grafico
                 final BarChart chart = findViewById(R.id.barChart);
 
-
-
-
+                //generiamo i marker e li associamo al grafico
                 mv = new MyMarkerView(this, R.layout.marker_view);
                 chart.setMarker(mv);
 
+                //metodo che gestisce l'interazione del grafico con le gesture
                 chart.setOnChartGestureListener(new OnChartGestureListener() {
 
                     @Override
@@ -117,37 +132,46 @@ public class buildChart extends AppCompatActivity {
                     public void onChartTranslate(MotionEvent me, float dX, float dY) {
                     }
                 });
-
-                legend = chart.getLegend();
-
-                legend.setEnabled(swLegend);
                 chart.setTouchEnabled(true);
                 chart.setDragEnabled(true);
                 chart.setPinchZoom(true);
-                BarDataSet bardataset = new BarDataSet(BarEntryList, "selezione");
-                BarData barData = new BarData(bardataset);
-                bardataset.setColor(colorAccent);
-                barData.setBarWidth(0.9f);
-                chart.setFitBars(true);
-                chart.setData(barData);
+
+
+                //generiamo le legende
+                legend = chart.getLegend();
+                legend.setEnabled(swLegend);
                 legend.setTextColor(labelColor);
 
+                //generazione del dataset
+                BarDataSet bardataset = new BarDataSet(BarEntryList, "selezione");
+                BarData barData = new BarData(bardataset);
+                bardataset.setColor(colorAccent);                                                   // imposta il colore delle barre del grafico
+                barData.setBarWidth(0.9f);                                                          // imposta  la larghezza  delle barre del grafico
+
+                // associa i dati (barData) nel grafico
+                chart.setFitBars(true);                                                             // adatta la dimensione delle barre per rientrare nei limiti del grafico
+                chart.setData(barData);
+
+                // imposta dimensione , colore e testo dell'asse x
                 XAxis x1 = chart.getXAxis();
                 x1.setAxisLineWidth(2f);
                 x1.setGridColor(labelColor);
                 x1.setTextColor(labelColor);
 
+                // imposta dimensione , colore e testo dell'asse y
                 YAxis left1 = chart.getAxisLeft();
                 left1.setAxisLineWidth(2f);
                 left1.setGridColor(labelColor);
                 left1.setTextColor(labelColor);
 
+                // imposta dimensione , colore e testo dell'asse sulla destra del grafico
                 YAxis right1 = chart.getAxisRight();
                 right1.setAxisLineWidth(2f);
                 right1.setGridColor(labelColor);
                 right1.setDrawLabels(false);
 
-                chart.invalidate(); // refresh
+                // aggiorna la view
+                chart.invalidate();
 
                 //pie chart
                 pieChart = findViewById(R.id.pieChart);
@@ -164,7 +188,7 @@ public class buildChart extends AppCompatActivity {
                 legend.setEnabled(swLegend);
                 legend.setTextColor(labelColor);
                 pieData = new PieData(PiedataSet);
-                pieChart.setHoleRadius(percenctage/2);
+                pieChart.setHoleRadius(percentage/2);
                 pieChart.setData(pieData);
                 PiedataSet.setColors(new int[] {R.color.colorAccent, R.color.colorPrimary}, getApplicationContext());
                 pieChart.setHoleColor(background);
@@ -277,7 +301,7 @@ public class buildChart extends AppCompatActivity {
                 legend.setTextColor(labelColor);
                 pieData = new PieData(PiedataSet);
                 pieChart.setData(pieData);
-                pieChart.setHoleRadius(percenctage/2);
+                pieChart.setHoleRadius(percentage/2);
                 PiedataSet.setColors(new int[] {R.color.colorPrimary, R.color.colorAccent}, getApplicationContext());
 
                 pieChart.setHoleColor(background);

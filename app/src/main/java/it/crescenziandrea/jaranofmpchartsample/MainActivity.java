@@ -49,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
        public void search() {
            // String url = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale-latest.json";
            String url ="https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json";
-
-            apiCall(url);
+           apiCall(url);
            Log.w("CA", "search");
         }
 
@@ -62,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     this,
                     this);
             requestQueue.add(stringRequest);
-
             Log.w("CA", "apicall");
-
         }
 
         @Override
@@ -74,10 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onResponse(String response) {
-            //Toast.makeText(getApplicationContext(),response, Toast.LENGTH_SHORT).show();
-            //Log.w("CA", "onrespons");
-
-
 
             Gson gson = new Gson();
             try {
@@ -92,10 +85,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //Toast.makeText(getApplicationContext(), "ricevuto", Toast.LENGTH_LONG).show();
 
             holder.getAll();
-            //fill(response);
 
         }
     }
@@ -130,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     tvProgress.setText(""+progress+"%");
-                    bundle.putInt("percenctage", progress);
+                    bundle.putInt("percentage", progress);
                 }
 
                 @Override
@@ -198,13 +189,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-        int i = 0;
-
         @Override
         public void onClick(View v) {
-
-            i = i + 1;
 
             model.search();
             Log.w("CA", "onclick");
