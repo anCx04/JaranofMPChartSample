@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
@@ -26,6 +27,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
@@ -33,7 +35,9 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +65,8 @@ public class buildChart extends AppCompatActivity {
         int colorAccent = ContextCompat.getColor(getApplicationContext(), R.color.colorAccent);
         int labelColor = ContextCompat.getColor(getApplicationContext(), R.color.gridcolor);
         int background = ContextCompat.getColor(getApplicationContext(), R.color.backgroundc);
+        Description description = new Description();
+        description.setText("");
 
 
         // salviamo i dati provenienti dal bundle nelle variabili
@@ -71,7 +77,6 @@ public class buildChart extends AppCompatActivity {
         ArrayList<Integer> num = data.getIntegerArrayList("dati");          // ArrayList dove vengono salvati i dati da plottare sui grafici
 
         // switch di selezione del grafico
-
         switch (selection) {
             case "a Barre":
 
@@ -151,6 +156,7 @@ public class buildChart extends AppCompatActivity {
                 // associa i dati (barData) nel grafico
                 chart.setFitBars(true);                                                             // adatta la dimensione delle barre per rientrare nei limiti del grafico
                 chart.setData(barData);
+                chart.setDescription(description);
 
                 // imposta dimensione , colore e testo dell'asse x
                 XAxis x1 = chart.getXAxis();
@@ -188,16 +194,20 @@ public class buildChart extends AppCompatActivity {
                 legend.setEnabled(swLegend);
                 legend.setTextColor(labelColor);
                 pieData = new PieData(PiedataSet);
+
+                pieData.setValueFormatter(new MyValueFormatter(pieChart));
+                pieData.setDataSet(PiedataSet);
+                pieData.setValueTextSize(18f);
+                pieChart.setEntryLabelTextSize(18f);
+
                 pieChart.setHoleRadius(percentage/2);
                 pieChart.setData(pieData);
                 PiedataSet.setColors(new int[] {R.color.colorAccent, R.color.colorPrimary}, getApplicationContext());
                 pieChart.setHoleColor(background);
                 pieChart.setCenterText("JARANOF\ncovid19 MPchart");
-                pieChart.setCenterTextSize(20f);
                 pieChart.setCenterTextColor(labelColor);
                 pieChart.setUsePercentValues(true);
 
-                PercentFormatter percentFormatter = new PercentFormatter()
                 pieChart.invalidate(); // refresh
 //.0
                 break;
@@ -266,6 +276,7 @@ public class buildChart extends AppCompatActivity {
                 dataSet.setDrawHighlightIndicators(true);
                 LineData lineData = new LineData(dataSet);
                 lineChart.setData(lineData);
+                lineChart.setDescription(description);
                 legend.setTextColor(labelColor);
 
                 XAxis x = lineChart.getXAxis();
@@ -299,10 +310,17 @@ public class buildChart extends AppCompatActivity {
                 legend = pieChart.getLegend();
                 legend.setEnabled(swLegend);
                 legend.setTextColor(labelColor);
+
                 pieData = new PieData(PiedataSet);
+                pieData.setValueFormatter(new MyValueFormatter(pieChart));
+                pieData.setDataSet(PiedataSet);
+                pieData.setValueTextSize(18f);
+                pieChart.setEntryLabelTextSize(18f);
+
                 pieChart.setData(pieData);
                 pieChart.setHoleRadius(percentage/2);
                 PiedataSet.setColors(new int[] {R.color.colorPrimary, R.color.colorAccent}, getApplicationContext());
+                pieChart.setUsePercentValues(true);
 
                 pieChart.setHoleColor(background);
                 pieChart.setCenterText("JARANOF\ncovid19 MPchart");
@@ -318,7 +336,34 @@ public class buildChart extends AppCompatActivity {
 
             default:
 
-                //TODO: boh
+                //TODO
+        }
+    }
+
+    public class MyValueFormatter extends PercentFormatter {
+        DecimalFormat mFormat;
+        PieChart mPieChart;
+
+        public MyValueFormatter(PieChart pieChart){
+            mFormat = new DecimalFormat("###,###,##0.0");
+            mPieChart = pieChart;
+        }
+
+
+        @Override
+        public String getFormattedValue(float value) {
+            return mFormat.format(value) + "%";
+        }
+
+        @Override
+        public String getPieLabel(float value, PieEntry pieEntry) {
+            if (mPieChart != null && mPieChart.isUsePercentValuesEnabled()) {
+                // Converted to percent
+                return getFormattedValue(value);
+            } else {
+                // raw value, skip percent sign
+                return mFormat.format(value);
+            }
         }
     }
 
