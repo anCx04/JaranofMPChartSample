@@ -179,50 +179,59 @@ public class buildChart extends AppCompatActivity {
                 // aggiorna la view
                 chart.invalidate();
 
-                //pie chart
+                //Creazione del pieChart
                 pieChart = findViewById(R.id.pieChart);
 
-                for (int i = 0; i < num.size(); i++) {
+                for (int i = 0; i < num.size(); i++) {                                              //Calcolo il totale della selezione fatta
                     sum += num.get(i);
                 }
-               EntryPie.add(new PieEntry(sum, "Selezione"));
-               EntryPie.add(new PieEntry(60360000, "popolazione italiana"));
+               EntryPie.add(new PieEntry(sum, "Selezione"));                                  //Creazione della entry con il totale della selezione
+               EntryPie.add(new PieEntry(60360000, "popolazione italiana"));            //Entry in cui viene inserita la popolazione totale
 
-                PiedataSet = new PieDataSet(EntryPie, "");
+                PiedataSet = new PieDataSet(EntryPie, "");                                    //Genero il dataSet
 
+                //Genero la Legenda e la personalizzo
                 legend = pieChart.getLegend();
                 legend.setEnabled(swLegend);
                 legend.setTextColor(labelColor);
                 pieData = new PieData(PiedataSet);
 
-                pieData.setValueFormatter(new MyValueFormatter(pieChart));
+                //Personalizzazione delle etichette del PieChart
+                pieChart.setUsePercentValues(true);                                                 //Calcolo dati in percentuale
+                pieData.setValueFormatter(new MyValueFormatter(pieChart));                          //Mostra la percentuale
                 pieData.setDataSet(PiedataSet);
                 pieData.setValueTextSize(18f);
                 pieChart.setEntryLabelTextSize(18f);
 
-                pieChart.setHoleRadius(percentage/2);
+                //Personalizzazione del grafico
+                pieChart.setHoleRadius(percentage/2);                                               //Imposto larghezza foro centrale
                 pieChart.setData(pieData);
-                PiedataSet.setColors(new int[] {R.color.colorAccent, R.color.colorPrimary}, getApplicationContext());
+                PiedataSet.setColors(new int[] {R.color.colorAccent, R.color.colorPrimary}, getApplicationContext()); //Personalizzazione colori
                 pieChart.setHoleColor(background);
                 pieChart.setCenterText("JARANOF\ncovid19 MPchart");
+                pieChart.setCenterTextSize(20f);
                 pieChart.setCenterTextColor(labelColor);
-                pieChart.setUsePercentValues(true);
 
                 pieChart.invalidate(); // refresh
 //.0
                 break;
             case "a Linee":
+
+                //Genero e popolo le Entry tramite i dati scaricati
                 List<Entry> LineEntryList = new ArrayList<>();
                 for (int i = 0; i < num.size(); i++) {
-                    LineEntryList.add(new Entry(i, num.get(i)));
+                    LineEntryList.add(new Entry(i, num.get(i)));                                    //Aggiungo Entry sequenzialmente
                 }
 
+                //Genero il Grafico a Linee
                 setContentView(R.layout.activity_line_chart);
                 final LineChart lineChart = findViewById(R.id.lineChart);
 
+                //genero il marker
                 mv = new MyMarkerView(this, R.layout.marker_view);
                 lineChart.setMarker(mv);
 
+                //Metodo che gestisce le gesture
                 lineChart.setOnChartGestureListener(new OnChartGestureListener() {
 
                     @Override
@@ -263,32 +272,39 @@ public class buildChart extends AppCompatActivity {
                     }
                 });
 
+                //Abilito e imposto la legenda
                 legend = lineChart.getLegend();
                 legend.setEnabled(swLegend);
+                legend.setTextColor(labelColor);
+                //Imposto le interazioni possibili col grafico
                 lineChart.setTouchEnabled(true);
                 lineChart.setDragEnabled(true);
                 lineChart.setPinchZoom(true);
+                //Genero il dataSet
                 LineDataSet dataSet = new LineDataSet(LineEntryList, "Selezione");
-                dataSet.setColors(colorAccent);
-                lineChart.getHighlighted();
-                dataSet.setDrawValues(false);
-                dataSet.setDrawCircles(false);
-                dataSet.setDrawHighlightIndicators(true);
+                dataSet.setColors(colorAccent);                                                     //Personalizzo il colore delle linee
+                dataSet.setDrawValues(false);                                                       //Disabilito le etichette
+                dataSet.setDrawCircles(false);                                                      //Disabilito i punti tra le linee
+                dataSet.setDrawHighlightIndicators(true);                                           //Evidenzio la entry selezionata
+                //Passo i dati al grafico
                 LineData lineData = new LineData(dataSet);
                 lineChart.setData(lineData);
                 lineChart.setDescription(description);
-                legend.setTextColor(labelColor);
+                lineChart.getHighlighted();
 
+                // imposta dimensione , colore e testo dell'asse x
                 XAxis x = lineChart.getXAxis();
                 x.setAxisLineWidth(2f);
                 x.setGridColor(labelColor);
                 x.setTextColor(labelColor);
 
+                // imposta dimensione , colore e testo dell'asse y
                 YAxis left = lineChart.getAxisLeft();
                 left.setAxisLineWidth(2f);
                 left.setGridColor(labelColor);
                 left.setTextColor(labelColor);
 
+                // imposta dimensione , colore e testo dell'asse sulla destra del grafico
                 YAxis right = lineChart.getAxisRight();
                 right.setAxisLineWidth(2f);
                 right.setGridColor(labelColor);
@@ -296,32 +312,34 @@ public class buildChart extends AppCompatActivity {
 
                 lineChart.invalidate(); // refresh
 
-                //pie chart
+                //Creazione pieChart
                 pieChart = findViewById(R.id.pieChart);
 
-                for (int i = 0; i < num.size(); i++) {
+                for (int i = 0; i < num.size(); i++) {                                              //Calcolo il totale della selezione fatta
                     sum += num.get(i);
                 }
-                EntryPie.add(new PieEntry(sum, "selezione"));
-                EntryPie.add(new PieEntry(60360000, "popolazione italiana"));
+                EntryPie.add(new PieEntry(sum, "selezione"));                                 //Creazione della entry con il totale della selezione
+                EntryPie.add(new PieEntry(60360000, "popolazione italiana"));           //Entry in cui viene inserita la popolazione totale
 
-                PiedataSet = new PieDataSet(EntryPie, "");
+                PiedataSet = new PieDataSet(EntryPie, "");                                    //Genero il dataSet
 
+                //Genero la Legenda e la personalizzo
                 legend = pieChart.getLegend();
                 legend.setEnabled(swLegend);
                 legend.setTextColor(labelColor);
-
                 pieData = new PieData(PiedataSet);
-                pieData.setValueFormatter(new MyValueFormatter(pieChart));
+
+                //Personalizzazione delle etichette del PieChart
+                pieChart.setUsePercentValues(true);                                                 //Calcolo dati in percentuale
+                pieData.setValueFormatter(new MyValueFormatter(pieChart));                          //Mostra la percentuale
                 pieData.setDataSet(PiedataSet);
                 pieData.setValueTextSize(18f);
                 pieChart.setEntryLabelTextSize(18f);
 
+                //Personalizzazione del grafico
+                pieChart.setHoleRadius(percentage/2);                                               //Imposto larghezza foro centrale
                 pieChart.setData(pieData);
-                pieChart.setHoleRadius(percentage/2);
                 PiedataSet.setColors(new int[] {R.color.colorPrimary, R.color.colorAccent}, getApplicationContext());
-                pieChart.setUsePercentValues(true);
-
                 pieChart.setHoleColor(background);
                 pieChart.setCenterText("JARANOF\ncovid19 MPchart");
                 pieChart.setCenterTextSize(20f);
@@ -329,17 +347,13 @@ public class buildChart extends AppCompatActivity {
 
                 pieChart.invalidate(); // refresh
 //.0
-
-
-                break;
-
-
+            break;
             default:
-
                 //TODO
         }
     }
 
+    //Classe per formattare le Entry del pieChart in percentuale
     public class MyValueFormatter extends PercentFormatter {
         DecimalFormat mFormat;
         PieChart mPieChart;
@@ -358,15 +372,16 @@ public class buildChart extends AppCompatActivity {
         @Override
         public String getPieLabel(float value, PieEntry pieEntry) {
             if (mPieChart != null && mPieChart.isUsePercentValuesEnabled()) {
-                // Converted to percent
+                // Converto in percentuale
                 return getFormattedValue(value);
             } else {
-                // raw value, skip percent sign
+                // Valore grezzo, sposto il valore della percentuale
                 return mFormat.format(value);
             }
         }
     }
 
+    //Classe per genereare il marker
     public class MyMarkerView extends MarkerView {
 
         private TextView tvContent;
@@ -376,6 +391,7 @@ public class buildChart extends AppCompatActivity {
             tvContent = findViewById(R.id.tvContent);
         }
 
+        //Adatta i dati disegnati dal marker
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
 
